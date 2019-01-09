@@ -158,7 +158,7 @@ $("#UploadInputFile").off("change").on("change", function () {
 
     for (var i = 0; i < files.length; i++) {
         const file = files[i];
-        const fileName = file.name.prop("disabled", true)
+        const fileName = file.name;
         const extension = fileName.split('.').pop().toLowerCase();
 
         if (isImage(fileName)) {

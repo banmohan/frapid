@@ -4,6 +4,7 @@
     {
         public static bool ValidateBcrypt(string userName, string plainPassword, string hashedPassword)
         {
+            var hashed = GetHashedPassword(userName, plainPassword);
             if (string.IsNullOrWhiteSpace(plainPassword)  || string.IsNullOrWhiteSpace(hashedPassword))
             {
                 return false;

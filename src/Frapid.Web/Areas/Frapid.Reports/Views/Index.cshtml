@@ -7,7 +7,7 @@
 
 <script src="/scripts/trumbowyg/dist/trumbowyg.min.js"></script>
 <link rel="stylesheet" href="/scripts/trumbowyg/dist/ui/trumbowyg.min.css">
-<link rel="stylesheet" type="text/css" href="/Areas/Frapid.Reports/styles/reports.css"/>
+<link rel="stylesheet" type="text/css" href="/Areas/Frapid.Reports/styles/reports.css" />
 
 <div class="report-panel">
     <div class="ui stackable report grid">
@@ -61,16 +61,15 @@
                                         data-key-field="@parameter.KeyField"
                                         data-value-field="@parameter.ValueField"
                                         data-default-value="@parameter.DefaultValue"
-                                        data-url="@parameter.PopulateFrom" 
-                                        data-optional="@parameter.Optional.ToString().ToLowerInvariant()">
-                                </select>
+                                        data-url="@parameter.PopulateFrom"
+                                        data-optional="@parameter.Optional.ToString().ToLowerInvariant()" class="ui search dropdown"></select>
                             }
                             else
                             {
                                 switch (parameter.Type.ToUpperInvariant())
                                 {
                                     case "SYSTEM.DATETIME":
-                                        <input data-paramter="@name" id="@(name)InputDate" value="@parameter.DefaultValue" class="date" type="date"/>
+                                        <input data-paramter="@name" id="@(name)InputDate" value="@parameter.DefaultValue" class="date" type="date" />
                                         break;
                                     case "BOOL":
                                     case "BOOLEAN":
@@ -81,14 +80,14 @@
                                         break;
                                     case "DECIMAL":
                                     case "DOUBLE":
-                                        <input data-paramter="@name" id="@(name)InputText" value="@parameter.DefaultValue" type="text" class="decimal" data-number=""/>
+                                        <input data-paramter="@name" id="@(name)InputText" value="@parameter.DefaultValue" type="text" class="decimal" data-number="" />
                                         break;
                                     case "INT":
                                     case "LONG":
-                                        <input data-paramter="@name" id="@(name)InputText" value="@parameter.DefaultValue" type="text" class="integer" data-number=""/>
+                                        <input data-paramter="@name" id="@(name)InputText" value="@parameter.DefaultValue" type="text" class="integer" data-number="" />
                                         break;
                                     default:
-                                        <input data-paramter="@name" id="@(name)InputText" value="@parameter.DefaultValue" type="text"/>
+                                        <input data-paramter="@name" id="@(name)InputText" value="@parameter.DefaultValue" type="text" />
                                         break;
                                 }
                             }
@@ -113,11 +112,11 @@
         <div class="ui flat form basic segment">
             <div class="field">
                 <label>@I18N.SendTo</label>
-                <input id="SendToInputEmail" type="email" required data-persist placeholder="Enter Email Address"/>
+                <input id="SendToInputEmail" type="email" required data-persist placeholder="Enter Email Address" />
             </div>
             <div class="field">
                 <label>@I18N.Subject</label>
-                <input id="SubjectInputText" type="text" required data-persist placeholder="Enter Subject" value="@Model.ReportTitle"/>
+                <input id="SubjectInputText" type="text" required data-persist placeholder="Enter Subject" value="@Model.ReportTitle" />
             </div>
             <div class="field">
                 <label>@I18N.Message</label>
@@ -129,7 +128,8 @@
             <div class="attachment vpad8 field">
                 <label>@I18N.Attachments</label>
                 <a href="javascript:void(0);">
-                    <i class="file pdf red outline icon"></i><span class="title">@(Model.ReportTitle).pdf</span></a>
+                    <i class="file pdf red outline icon"></i><span class="title">@(Model.ReportTitle).pdf</span>
+                </a>
             </div>
             <button id="SendEmailButton" class="ui positive button">@I18N.Send</button>
             <button class="ui negative button" onclick="$('#EmailModal').modal('hide');">@I18N.Close</button>
@@ -138,3 +138,29 @@
 </div>
 <a id="DownloadAnchor" style="display: none;"></a>
 <script src="/Areas/Frapid.Reports/scripts/reports.js" async="" defer=""></script>
+
+<script>
+    setTimeout(function () {
+        $(".ui.dropdown").dropdown();
+        if (location.href.indexOf('BalanceSheet.xml') > -1) {
+            $("#ShowButton").off("click").on("click", function () {
+                const date = $("#DateInputDate").val();
+                if (!date) return;
+
+                var d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+
+                if (month.length < 2) month = '0' + month;
+                if (day.length < 2) day = '0' + day;
+
+                var dateString = [year, month, day].join('-');
+                const factor = parseInt($("#FactorInputText").val() || 1);
+				const compact = $("#CompactCheckBox").is(":checked");
+
+                $("#ReportIframe").attr("src", `/dashboard/finance/reports/balance-sheet?OfficeId=1&Date=${dateString}&Factor=${factor}&Compact=${compact}`)
+            });
+        }
+    }, 1000)
+</script>

@@ -139,7 +139,7 @@ namespace Frapid.WebApi.DataAccess
                 }
             }
 
-            string sql = $"SELECT {this.PrimaryKey} AS \"key\", {this.NameColumn} as \"value\" FROM {this.FullyQualifiedObjectName} ORDER BY 1;";
+            string sql = $"SELECT {this.PrimaryKey} AS \"key\", {this.NameColumn} as \"value\" FROM {this.FullyQualifiedObjectName} ORDER BY 2;";
 
             try
             {
@@ -172,7 +172,7 @@ namespace Frapid.WebApi.DataAccess
                 }
             }
 
-            string sql = $"SELECT {this.LookupField} AS \"key\", {this.NameColumn} as \"value\" FROM {this.FullyQualifiedObjectName} ORDER BY 1;";
+            string sql = $"SELECT {this.LookupField} AS \"key\", {this.NameColumn} as \"value\" FROM {this.FullyQualifiedObjectName} ORDER BY 2;";
 
             try
             {
@@ -209,7 +209,7 @@ namespace Frapid.WebApi.DataAccess
             //ORDER BY {this.PrimaryKey} LIMIT PageSize OFFSET 0;";
 
             var sql = new Sql($"SELECT * FROM {this.FullyQualifiedObjectName}");
-            sql.OrderBy(this.PrimaryKey);
+            sql.OrderBy($"{this.PrimaryKey} DESC");
             sql.Append(FrapidDbServer.AddOffset(this.Database, "@0"), 0);
             sql.Append(FrapidDbServer.AddLimit(this.Database, "@0"), Config.GetPageSize(this.Database));
 
@@ -250,7 +250,7 @@ namespace Frapid.WebApi.DataAccess
             //ORDER BY {this.PrimaryKey} LIMIT PageSize OFFSET @0;";
 
             var sql = new Sql($"SELECT * FROM {this.FullyQualifiedObjectName}");
-            sql.OrderBy(this.PrimaryKey);
+            sql.OrderBy($"{this.PrimaryKey} DESC");
             sql.Append(FrapidDbServer.AddOffset(this.Database, "@0"), offset);
             sql.Append(FrapidDbServer.AddLimit(this.Database, "@0"), Config.GetPageSize(this.Database));
 

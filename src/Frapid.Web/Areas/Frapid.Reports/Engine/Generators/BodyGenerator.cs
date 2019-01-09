@@ -111,10 +111,10 @@ namespace Frapid.Reports.Engine.Generators
 
             html.Append("<table id='GridView" + dataSource.Index + "' ");
 
-            if (!string.IsNullOrWhiteSpace(grid.CssStyle))
-            {
-                html.Append("style='" + grid.CssStyle + "' ");
-            }
+            //if (!string.IsNullOrWhiteSpace(grid.CssStyle))
+            //{
+            //    html.Append("style='" + grid.CssStyle + "' ");
+            //}
 
             if (!string.IsNullOrWhiteSpace(grid.CssClass))
             {

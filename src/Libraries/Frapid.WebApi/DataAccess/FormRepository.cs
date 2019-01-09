@@ -430,7 +430,7 @@ namespace Frapid.WebApi.DataAccess
                 }
             }
 
-            string sql = $"SELECT {this.PrimaryKey} AS \"key\", {this.NameColumn} as \"value\" FROM {this.FullyQualifiedObjectName} WHERE deleted=@0 ORDER BY 1;";
+            string sql = $"SELECT {this.PrimaryKey} AS \"key\", {this.NameColumn} as \"value\" FROM {this.FullyQualifiedObjectName} WHERE deleted=@0 ORDER BY 2;";
 
             try
             {
@@ -463,7 +463,7 @@ namespace Frapid.WebApi.DataAccess
                 }
             }
 
-            string sql = $"SELECT {this.LookupField} AS \"key\", {this.NameColumn} as \"value\" FROM {this.FullyQualifiedObjectName} WHERE deleted=@0 ORDER BY 1;";
+            string sql = $"SELECT {this.LookupField} AS \"key\", {this.NameColumn} as \"value\" FROM {this.FullyQualifiedObjectName} WHERE deleted=@0 ORDER BY 2;";
 
             try
             {

@@ -1,0 +1,137 @@
+﻿@model Frapid.Account.DTO.User
+
+@{
+    ViewBag.Title = I18N.CreateANewUser;
+    Layout = ViewBag.Layout;
+}
+<div class="ui segment" style="padding: 48px;">
+    <div class="ui container">
+        <div class="ui huge header">Edit User</div>
+        <div class="ui stackable grid">
+            <div class="six wide column">
+                <div class="ui form">
+                    <div class="disabled field">
+                        <label>@I18N.Email</label>
+                        <input type="hidden" name="UserIdInputHidden" value="@Model.UserId" />
+                        <input type="email" id="EmailInputEmail" required="" value="@Model.Email" />
+                    </div>
+                    <div class="field">
+                        <label>@I18N.Name</label>
+                        <input type="text" id="NameInputText" required="" value="@Model.Name" />
+                    </div>
+                    <div class="office field">
+                        <label>@I18N.Office</label>
+                    </div>
+                    <div class="role field">
+                        <label>@I18N.Role</label>
+                    </div>
+                    <div class="field">
+                        <label>@I18N.Phone</label>
+                        <input type="tel" id="PhoneInputTel" required="" value="@Model.Phone" />
+                    </div>
+
+                    <button class="ui green button" id="SaveButton">@I18N.Save</button>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+<script>
+    $(".form").addClass("loading");
+    //Todo: Remove Semantic UI Dropdown dependency 
+    //$(".dropdown").dropdown({forceSelection: false});
+    window.validator.initialize($(".ui.form"));
+
+    function bindOffices(officeId) {
+        function request() {
+            const url = "/api/views/core/offices/display-fields";
+            return window.getAjaxRequest(url);
+        };
+
+        const ajax = request();
+
+        ajax.success(function (response) {
+            const select = $("<select id='OfficeIdSelect' />");
+            var options = "";
+
+            $.each(response, function () {
+                var option = "<option value='{key}'>{value}</option>";
+                option = option.replace("{key}", this.Key);
+                option = option.replace("{value}", this.Value);
+
+                options += option;
+            });
+
+            select.html(options);
+            select.dropdown("set value", officeId);
+
+            $(".office.field").append(select);
+            $(".form").removeClass("loading");
+        });
+
+        ajax.fail(function() {
+            $(".form").removeClass("loading");
+        });
+    };
+
+    function bindRoles(roleId) {
+        function request() {
+            const url = "/api/forms/account/roles/display-fields";
+            return window.getAjaxRequest(url);
+        };
+
+        const ajax = request();
+
+        ajax.success(function (response) {
+            const select = $("<select id='RoleIdSelect'/>");
+            var options = "";
+
+            $.each(response, function () {
+                var option = "<option value='{key}'>{value}</option>";
+                option = option.replace("{key}", this.Key);
+                option = option.replace("{value}", this.Value);
+
+                options += option;
+            });
+
+            select.html(options);
+            select.dropdown("set value", roleId);
+            select.dropdown();
+
+            $(".role.field").append(select);
+        });
+    };
+
+    bindRoles(@Model.RoleId);
+    bindOffices(@Model.OfficeId);
+
+    $("#SaveButton").off("click").on("click", function() {
+        function request(model) {
+            const url = "/dashboard/account/user/update";
+            const data = JSON.stringify(model);
+
+            return window.getAjaxRequest(url, "POST", data);
+        };
+
+        var form = $(".ui.form");
+        form.addClass("loading");
+
+        const model = window.serializeForm(form);
+        const ajax = request(model);
+
+        ajax.success(function () {
+            form.removeClass("loading");
+            $(".ui.form input").val("");
+            window.displaySuccess();
+            location.href = '/dashboard/account/user/list';
+        });
+
+        ajax.fail(function (xhr) {
+            form.removeClass("loading");
+            window.logAjaxErrorMessage(xhr);
+        });
+    });
+	
+	window.overridePath = "/dashboard/account/user/list";
+</script>

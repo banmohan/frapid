@@ -11,5 +11,7 @@ namespace Frapid.Account.ViewModels
         public string Password { get; set; }
         [Required]
         public string ConfirmPassword { get; set; }
+
+        public string CurrentPassword { get; set; }
     }
 }

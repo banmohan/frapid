@@ -38,7 +38,6 @@ namespace Frapid.Reports.Controllers.Backend
         }
 
         [ActionName("ReportMarkup")]
-        [ChildActionOnly]
         public ActionResult Markup(string path)
         {
             var parameters = ParameterHelper.GetParameters(this.Request.QueryString);

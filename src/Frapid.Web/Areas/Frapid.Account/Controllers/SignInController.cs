@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Frapid.Account.Cors;
 using Frapid.Account.DAL;
 using Frapid.Account.InputModels;
 using Frapid.Areas.CSRF;
@@ -16,6 +17,7 @@ using SignIn = Frapid.Account.ViewModels.SignIn;
 namespace Frapid.Account.Controllers
 {
     [AntiForgery]
+    [AllowCors]
     public class SignInController : BaseAuthenticationController
     {
         [Route("account/sign-in")]

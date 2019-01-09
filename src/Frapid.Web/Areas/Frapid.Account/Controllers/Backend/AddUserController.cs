@@ -28,6 +28,19 @@ namespace Frapid.Account.Controllers.Backend
             return this.FrapidView(this.GetRazorView<AreaRegistration>("User/AddNew.cshtml", this.Tenant));
         }
 
+        [Route("dashboard/account/user/edit/{userId}")]
+        [AccessPolicy("account", "users", AccessTypeEnum.Read)]
+        public async Task<ActionResult> Edit(int userId)
+        {
+            if (!AppUsers.GetCurrent().IsAdministrator)
+            {
+                return this.AccessDenied();
+            }
+
+            var user = await Users.GetAsync(this.Tenant, userId).ConfigureAwait(true);
+            return this.FrapidView(this.GetRazorView<AreaRegistration>("User/Edit.cshtml", this.Tenant), user);
+        }
+
         [Route("dashboard/account/user/add")]
         [HttpPost]
         [AccessPolicy("account", "users", AccessTypeEnum.Create)]
@@ -54,6 +67,35 @@ namespace Frapid.Account.Controllers.Backend
             try
             {
                 await Users.CreateUserAsync(this.Tenant, user.UserId, model).ConfigureAwait(true);
+                return this.Ok("OK");
+            }
+            catch (Exception ex)
+            {
+                return this.Failed(ex.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [Route("dashboard/account/user/update")]
+        [HttpPost]
+        [AccessPolicy("account", "users", AccessTypeEnum.Create)]
+        public async Task<ActionResult> UpdateAsync(DTO.User model)
+        {
+            var user = await AppUsers.GetCurrentAsync(this.Tenant).ConfigureAwait(true);
+
+            if (!user.IsAdministrator)
+            {
+                return this.AccessDenied();
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.InvalidModelState(this.ModelState);
+            }
+
+
+            try
+            {
+                await Users.UpdateUserAsync(this.Tenant, user.UserId, model).ConfigureAwait(true);
                 return this.Ok("OK");
             }
             catch (Exception ex)

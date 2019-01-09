@@ -95,5 +95,14 @@ namespace Frapid.Account.DAL
                 await db.InsertAsync("account.users", "user_id", true, user).ConfigureAwait(false);
             }
         }
+
+        public static async Task UpdateUserAsync(string tenant, int userId, User model)
+        {
+            using (var db = DbProvider.Get(FrapidDbServer.GetSuperUserConnectionString(tenant), tenant).GetDatabase())
+            {
+                await db.NonQueryAsync(@"UPDATE account.users SET office_id=@0, role_id=@1, name=@2, phone=@3 WHERE user_id=@4"
+                    , model.OfficeId, model.RoleId, model.Name, model.Phone, model.UserId).ConfigureAwait(false);
+            }
+        }
     }
 }

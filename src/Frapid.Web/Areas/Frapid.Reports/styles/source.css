@@ -207,34 +207,32 @@ table, table th {
     border-bottom-color: silver;
 }
 
-@media screen {
-    .toolbar {
-        background-color: #444;
-        padding-left: 1em;
-        text-align: center;
+.toolbar {
+    background-color: #444;
+    padding-left: 1em;
+    text-align: center;
+}
+
+    .toolbar .button {
+        background: transparent;
+        border: 0;
+        color: #dadada;
+        cursor: pointer;
+        display: inline-flex;
+        font-size: 0.8em;
+        height: 3em;
+        margin: 0 2px;
+        padding: 0.8em 0.5em;
+        width: 2em;
+        text-shadow: 2px 2px 20px white;
     }
 
-        .toolbar .button {
-            background: transparent;
-            border: 0;
-            color: #dadada;
-            cursor: pointer;
-            display: inline-flex;
-            font-size: 0.8em;
-            height: 3em;
-            margin: 0 2px;
-            padding: 0.8em 0.5em;
-            width: 2em;
-            text-shadow: 2px 2px 20px white;
+        .toolbar .button:hover {
+            background-color: green;
         }
 
-            .toolbar .button:hover {
-                background-color: green;
-            }
-
-    .top.section, .body, .bottom.section {
-        padding: 1rem;
-    }
+.top.section, .body, .bottom.section {
+    padding: 1rem;
 }
 
 @media print {

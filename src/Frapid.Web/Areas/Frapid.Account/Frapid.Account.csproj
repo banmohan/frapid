@@ -163,6 +163,7 @@
     <Compile Include="Controllers\GoogleSignInController.cs" />
     <Compile Include="Controllers\Frontend\ResetController.cs" />
     <Compile Include="Controllers\SignOutController.cs" />
+    <Compile Include="Cors\AllowCorsAttribute.cs" />
     <Compile Include="DAL\AccessTokens.cs" />
     <Compile Include="DAL\Offices.cs" />
     <Compile Include="DAL\ResetRequests.cs" />
@@ -245,6 +246,8 @@
     <Content Include="Views\SignOut\Index.cshtml" />
     <Content Include="Views\User\AddNew.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\ChangeMyPassword.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -15,11 +15,14 @@
     scrudFactory.formAPI = "/api/forms/account/users";
     scrudFactory.formTableName = "account.users";
 
+    scrudFactory.addNewUrl = "edit";
+    scrudFactory.editUrl = "edit/";
+
     scrudFactory.excludedColumns = ["AuditUserId", "AuditTs", "Password"];
     scrudFactory.hiddenColumns = ["Password"];
 
     scrudFactory.allowDelete = true;
-    scrudFactory.allowEdit = false;
+    scrudFactory.allowEdit = true;
 
     scrudFactory.live = "Email";
 
